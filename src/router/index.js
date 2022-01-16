@@ -6,6 +6,7 @@ import Layout from "@/views/Layout";
 import Favorites from "@/views/Favorites";
 import Bascket from "@/views/Bascket";
 import Sign from "@/views/Sign";
+import SignOut from "@/components/SignOut";
 
 Vue.use(VueRouter)
 
@@ -47,6 +48,11 @@ const routes = [
                 path: '/sign',
                 name: 'Sign',
                 component: Sign
+            },
+            {
+                path: '/signout',
+                name: 'SignOut',
+                component: SignOut
             },
         ]
     }]

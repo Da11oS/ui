@@ -103,7 +103,7 @@
 </template>
 <script>
 
-import {apiURl} from "@/Dictionaries";
+import {apiURl} from "@/Service";
 
 export default {
   name: "Sign",

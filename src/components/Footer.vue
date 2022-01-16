@@ -5,7 +5,7 @@
   >
     <v-card
         flat
-        color="green"
+        color="plue"
         class="indigo lighten-1 white--text text-center"
     >
 

@@ -56,7 +56,6 @@ export const catalog = [
         Count: 15
     },
 ]
-export const apiURl = "https://localhost:5001";
 
 // const users = [
 //     {

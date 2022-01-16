@@ -2,7 +2,7 @@
   <v-card
       class="mx-auto"
       max-width="344"
-      color="green"
+      color="blue"
   >
     <v-img
         :src=image
@@ -21,10 +21,9 @@
       <v-card-subtitle>
         {{ price }} $
       </v-card-subtitle>
-      <v-btn icon>
+      <v-btn icon v-if="$root.isLogIn" @click="clickFavorite">
         <v-icon
-            :color="isFavorite ? 'red' : 'white'"
-            @click="isFavorite = !isFavorite"
+            color="isFavorite? 'red' : 'white'"
         >mdi-heart
         </v-icon>
       </v-btn>
@@ -52,15 +51,17 @@
 
 <script>
 
+import {addFavorites, getFavoritesOfUserListAsync, removeFavorites} from "@/Service";
+
 export default {
   name: "ItemCard",
   data() {
     return {
       show: false,
+      favorite: false
     }
   },
   props: {
-
     name: {
       type: String,
       default: "item"
@@ -77,10 +78,6 @@ export default {
       type: String,
       default: "description"
     },
-    isFavorite: {
-      type: Boolean,
-      default: false
-    },
     image: {
       type: String,
       default: "../assets/logo.png",
@@ -88,13 +85,47 @@ export default {
     price: {
       type: Number,
       default: 9999999
+    },
+    id: {
+      type: Number,
+      default: 0
+    }
+  },
+  methods: {
+    clickFavorite() {
+      if (this.isFavorite) {
+        this.$emit('removefavorite', this.id);
+        console.log('remove');
+        removeFavorites(this.$root.userID, this.id).then(() => {
+          if (this.$root.isLogIn)
+            getFavoritesOfUserListAsync(this.$root.userID).then(data => {
+              this.$root.favorites = data;
+            });
+        });
+      } else {
+        this.$emit('addfavorite', this.id);
+        console.log('add');
+        addFavorites(this.$root.userID, this.id).then(() => {
+          if (this.$root.isLogIn)
+            getFavoritesOfUserListAsync(this.$root.userID).then(data => {
+              this.$root.favorites = data;
+            });
+        });
+        this.favorite = this.$root.favorites.filter(x => x === this.id).length > 0;
+      }
+    },
+
+  },
+  computed: {
+    imageSrc() {
+      return require(this.image);
+    },
+    isFavorite() {
+      if (this.$root.isLogIn)
+        return this.$root.favorites.some(x => x === this.id);
+      return false
     }
   }
-  // computed:{
-  //   imageSrc(){
-  //     return require(this.image);
-  //   }
-  // }
 }
 </script>
 

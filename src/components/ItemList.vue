@@ -1,7 +1,7 @@
 <template>
   <div style="min-height: 800px">
     <v-row>
-      <v-toolbar>
+      <v-toolbar color="blue">
         <v-btn icon
                @click="searchText = textFieldValue">
           <v-icon>mdi-magnify</v-icon>
@@ -11,6 +11,7 @@
             flat
             hide-details
             solo-inverted
+            color="white"
             :value="searchText"
             v-model="searchText"
         ></v-text-field>
@@ -18,13 +19,16 @@
     </v-row>
     <v-row>
       <item-card
-          v-for="item in filteredItems"
-          :key="item"
+          @addfavorite="console.log('add')"
+          @removefavorite="console.log('remove')"
+          v-for="(item,index) in filteredItems"
+          :key="index"
           :title="item.Title"
           :subtitle="item.Subtitle"
           :description="item.Description"
           :image="item.ImageSrc"
           :price="item.Price"
+          :id="item.ID"
       >
       </item-card>
     </v-row>
@@ -33,7 +37,8 @@
 
 <script>
 import ItemCard from "@/components/ItemCard";
-import {apiURl, catalog} from "@/Dictionaries";
+import {catalog} from "@/Dictionaries";
+import {getBascketListAsync, getCatalogListAsync, getFavoritesListAsync, getFavoritesOfUserListAsync} from "@/Service";
 
 export default {
   name: "ItemList",
@@ -57,30 +62,26 @@ export default {
     }
   },
   methods: {
-    async getCatalogListAsync() {
-      await fetch(apiURl + "/Catalog").then((response) => {
-        return response.json();
-      }).then((data) => {
-            console.log("data: " + data);
-            const obj = data.map(x => {
-              return {
-                ID: x.id,
-                Title: x.title,
-                Subtitle: x.subTitle,
-                Description: x.descriptions,
-                Price: x.price,
-                Count: x.countP,
-                ImageSrc: x.imageSrc
-              };
-            })
-             this.items = obj;
-          }
-      );
+    SetItems() {
+      switch (this.$router.currentRoute.name) {
+        case "Catalog":
+          if(this.$root.isLogIn)
+            getFavoritesOfUserListAsync(this.$root.userID).then(data => {this.$root.favorites = data});
+          getCatalogListAsync().then(data => this.items = data);
+          break;
+        case "Favorites":
+          if(this.$root.isLogIn)
+            getFavoritesOfUserListAsync(this.$root.userID).then(data => {this.$root.favorites = data});
+          getFavoritesListAsync(this.$root.userID).then(data => {this.items = data});
+          break;
+        case "Basket":
+          getBascketListAsync(this.$root.userID).then(data => this.items = data);
+          break;
+      }
     }
   },
   created() {
-    console.log("created");
-    this.getCatalogListAsync();
+    this.SetItems();
   }
 }
 </script>
