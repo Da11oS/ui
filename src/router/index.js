@@ -23,7 +23,7 @@ const routes = [
             {
                 path: '/',
                 name: 'Catalog',
-                component: Catalog
+                component: Catalog,
             },
             {
                 path: '/',

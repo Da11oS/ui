@@ -6,7 +6,13 @@ import vuetify from './plugins/vuetify'
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
+    router,
+    vuetify,
+    data() {
+        return {
+            userID: 0,
+        }
+    },
+    render: h => h(App)
+}).
+$mount('#app')

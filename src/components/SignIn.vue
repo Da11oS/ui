@@ -3,7 +3,6 @@
   <v-card-text>
     <v-text-field
         label="Email"
-        value="john@vuetifyjs.com"
     ></v-text-field>
     <v-text-field
         label="Password"

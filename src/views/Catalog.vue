@@ -6,11 +6,15 @@
 
 <script>
 import ItemList from "@/components/ItemList";
+
 export default {
   name: "Catalog",
   components: {
     ItemList
-  }
+  },
+  props: {
+    searchText: String
+  },
 }
 </script>
 

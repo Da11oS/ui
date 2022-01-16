@@ -1,47 +1,46 @@
 <template>
-    <v-toolbar
-        color="green"
-        dark
-        flat
+  <v-toolbar
+      color="green"
+      dark
+      src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+  >
+    <v-tabs
+        centered
     >
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-      <v-text-field
-          class="mx-4"
-          flat
-          hide-details
-          label="Search"
-          solo-inverted
-      ></v-text-field>
-      <template v-slot:extension>
-        <v-tabs
-            v-model="tabs"
-            centered
-        >
-          <v-tab @click = "$router.push({ name: 'Home'})">
-            <v-icon>mdi-home</v-icon>
-          </v-tab>
-          <v-tab @click = "$router.push({ name: 'Catalog'})">
-            Каталог
-          </v-tab>
-          <v-tab @click = "$router.push({ name: 'Favorites'})">
-            Избранное
-          </v-tab>
-          <v-tab @click = "$router.push({ name: 'Bascket'})">
-            Корзина
-          </v-tab>
-          <v-tab @click = "$router.push({ name: 'Sign'})">
-              <v-icon>mdi-account</v-icon>
-          </v-tab>
-        </v-tabs>
-      </template>
-    </v-toolbar>
+      <v-tab @click="$router.push({ name: 'Home'})">
+        <v-icon>mdi-home</v-icon>
+      </v-tab>
+      <v-tab @click="$router.push({ name: 'Catalog'})">
+        Каталог
+      </v-tab>
+      <v-tab @click="$router.push({ name: 'Favorites'})"
+             disabled="disable">
+        Избранное
+      </v-tab>
+      <v-tab @click="$router.push({ name: 'Bascket'})"
+             disabled="disable">
+        Корзина
+      </v-tab>
+      <v-tab @click="$router.push({ name: 'Sign'})">
+        <v-icon>mdi-account</v-icon>
+      </v-tab>
+    </v-tabs>
+  </v-toolbar>
 </template>
 
 <script>
 export default {
-  name: "Header"
+  name: "Header",
+  data() {
+    return {
+      searchText: "Search",
+    }
+  },
+  computed: {
+    disable() {
+      return this.$root.UserId === 0;
+    }
+  }
 }
 </script>
 

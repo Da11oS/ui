@@ -5,12 +5,12 @@
       color="green"
   >
     <v-img
-        :src= image
+        :src=image
         height="200px"
     ></v-img>
 
     <v-card-title>
-      {{title}}
+      {{ title }}
     </v-card-title>
 
     <v-card-subtitle>
@@ -18,17 +18,15 @@
     </v-card-subtitle>
     <v-divider></v-divider>
     <v-card-actions>
-      <v-btn
-          color="orange lighten-2"
-          text
-      >
-        Explore
-      </v-btn>
+      <v-card-subtitle>
+        {{ price }} $
+      </v-card-subtitle>
       <v-btn icon>
         <v-icon
-            :color = "isFavorite ? 'red' : 'white'"
-            @click = "isFavorite = !isFavorite"
-        >mdi-heart</v-icon>
+            :color="isFavorite ? 'red' : 'white'"
+            @click="isFavorite = !isFavorite"
+        >mdi-heart
+        </v-icon>
       </v-btn>
       <v-spacer></v-spacer>
 
@@ -56,36 +54,41 @@
 
 export default {
   name: "ItemCard",
+  data() {
+    return {
+      show: false,
+    }
+  },
   props: {
 
-      name: {
-        type: String,
-        default: "item"
-      },
-      title: {
-        type: String,
-        default: "title"
-      },
-      subtitle: {
-        type: String,
-        default: "subtitle"
-      },
-      description:{
-        type: String,
-        default: "description"
-      },
-      isFavorite: {
-        type: Boolean,
-        description: false
-      },
-      image: {
-        type: String,
-        description: "../assets/logo.png",
-      },
-      show: {
-        type: Boolean,
-        description: false
-      }
+    name: {
+      type: String,
+      default: "item"
+    },
+    title: {
+      type: String,
+      default: "title"
+    },
+    subtitle: {
+      type: String,
+      default: "subtitle"
+    },
+    description: {
+      type: String,
+      default: "description"
+    },
+    isFavorite: {
+      type: Boolean,
+      default: false
+    },
+    image: {
+      type: String,
+      default: "../assets/logo.png",
+    },
+    price: {
+      type: Number,
+      default: 9999999
+    }
   }
   // computed:{
   //   imageSrc(){
@@ -96,5 +99,7 @@ export default {
 </script>
 
 <style scoped>
-
+.v-card {
+  width: 100% !important;
+}
 </style>
